@@ -1,0 +1,296 @@
+<service-test>
+  <unique-id>boring-keller</unique-id>
+  <test-client class="embedded-jmx-test-client">
+    <shared-components>
+      <connections/>
+      <services/>
+    </shared-components>
+    <shared-components-provider>
+      <services/>
+    </shared-components-provider>
+  </test-client>
+  <helpers/>
+  <test-list>
+    <unique-id>stax</unique-id>
+    <test>
+      <unique-id>create-user@create-user@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions>
+          <assert-payload-contains>
+            <payload><![CDATA["user":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["username":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["firstName":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["lastName":]]></payload>
+          </assert-payload-contains>
+          <assert-metadata-key-exists>
+            <key>userRandomNumber</key>
+          </assert-metadata-key-exists>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>create-user</service>
+            <service>create-user</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>json-to-xml@create-user@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[{"user":{  "username":"username-01",  "firstName":"firstName-01",  "lastName":"lastName-01"}}]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-xml-payload-equals>
+            <payload><![CDATA[<?xml version='1.0' encoding='UTF-8'?><user><username>username-01</username><firstName>firstName-01</firstName><lastName>lastName-01</lastName></user>]]></payload>
+          </assert-xml-payload-equals>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>create-user</service>
+            <service>json-to-xml</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>create-address@add-address@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions>
+          <assert-payload-contains>
+            <payload><![CDATA["address":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["number":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["street":]]></payload>
+          </assert-payload-contains>
+          <assert-payload-contains>
+            <payload><![CDATA["postcode":]]></payload>
+          </assert-payload-contains>
+          <assert-metadata-key-exists>
+            <key>addressRandomNumber</key>
+          </assert-metadata-key-exists>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>add-address</service>
+            <service>create-address</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>json-to-xml@add-address@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[{"address":{  "number":"01",  "street":"Avenue 01",  "postcode":"000-01"}}]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-xml-payload-equals>
+            <payload><![CDATA[<?xml version='1.0' encoding='UTF-8'?><address><number>01</number><street>Avenue 01</street><postcode>000-01</postcode></address>]]></payload>
+          </assert-xml-payload-equals>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>add-address</service>
+            <service>json-to-xml</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>parse-username-and-number@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[<?xml version='1.0' encoding='UTF-8'?><user-wrapper><user><username>username-1</username><firstName>firstName-1</firstName><lastName>lastName-1</lastName></user><address><number>02</number><street>Avenue 02</street><postcode>000-02</postcode></address></user-wrapper>]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-metadata-equals>
+            <metadata>
+              <key-value-pair>
+                <key>username</key>
+                <value>username-1</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>number</key>
+                <value>02</value>
+              </key-value-pair>
+            </metadata>
+          </assert-metadata-equals>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>parse-username-and-number</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>check-record-type@stax</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider">
+            <metadata>
+              <key-value-pair>
+                <key>userRandomNumber</key>
+                <value>01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>addressRandomNumber</key>
+                <value>02</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>username</key>
+                <value>username-01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>number</key>
+                <value>02</value>
+              </key-value-pair>
+            </metadata>
+          </metadata-provider>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions/>
+      </test-case>
+      <test-case>
+        <unique-id>assert-failure-wrong-username</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider">
+            <metadata>
+              <key-value-pair>
+                <key>userRandomNumber</key>
+                <value>01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>addressRandomNumber</key>
+                <value>02</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>username</key>
+                <value>username-02</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>number</key>
+                <value>02</value>
+              </key-value-pair>
+            </metadata>
+          </metadata-provider>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions/>
+        <expected-exception>
+          <class-name>com.adaptris.core.ServiceException</class-name>
+        </expected-exception>
+      </test-case>
+      <test-case>
+        <unique-id>	 assert-failure-wrong-number</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider">
+            <metadata>
+              <key-value-pair>
+                <key>userRandomNumber</key>
+                <value>01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>addressRandomNumber</key>
+                <value>02</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>username</key>
+                <value>username-01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>number</key>
+                <value>01</value>
+              </key-value-pair>
+            </metadata>
+          </metadata-provider>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions/>
+        <expected-exception>
+          <class-name>com.adaptris.core.ServiceException</class-name>
+        </expected-exception>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>stax</channel>
+            <workflow>stax</workflow>
+            <service>check-record-type</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+  </test-list>
+</service-test>

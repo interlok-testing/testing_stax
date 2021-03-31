@@ -1,0 +1,195 @@
+<adapter>
+  <unique-id>stax</unique-id>
+  <start-up-event-imp>com.adaptris.core.event.StandardAdapterStartUpEvent</start-up-event-imp>
+  <heartbeat-event-imp>com.adaptris.core.HeartbeatEvent</heartbeat-event-imp>
+  <shared-components>
+    <connections/>
+    <services/>
+  </shared-components>
+  <event-handler class="default-event-handler">
+    <unique-id>DefaultEventHandler</unique-id>
+    <connection class="null-connection">
+      <unique-id>dreamy-mayer</unique-id>
+    </connection>
+    <producer class="null-message-producer">
+      <unique-id>nostalgic-montalcini</unique-id>
+    </producer>
+  </event-handler>
+  <message-error-handler class="null-processing-exception-handler">
+    <unique-id>cranky-goldstine</unique-id>
+  </message-error-handler>
+  <failed-message-retrier class="no-retries">
+    <unique-id>romantic-poincare</unique-id>
+  </failed-message-retrier>
+  <channel-list>
+    <channel>
+      <consume-connection class="null-connection">
+        <unique-id>reverent-spence</unique-id>
+      </consume-connection>
+      <produce-connection class="null-connection">
+        <unique-id>mad-lalande</unique-id>
+      </produce-connection>
+      <workflow-list>
+        <standard-workflow>
+          <consumer class="polling-trigger">
+            <message-factory class="file-backed-message-factory">
+              <temp-directory>${tmpDir}</temp-directory>
+              <create-temp-dir>true</create-temp-dir>
+            </message-factory>
+            <unique-id>furious-pare</unique-id>
+            <poller class="fixed-interval-poller">
+              <poll-interval>
+                <unit>SECONDS</unit>
+                <interval>10</interval>
+              </poll-interval>
+            </poller>
+          </consumer>
+          <service-collection class="service-list">
+            <unique-id>zen-shannon</unique-id>
+            <services>
+              <service-list>
+                <unique-id>create-user</unique-id>
+                <services>
+                  <embedded-scripting-service>
+                    <unique-id>create-user</unique-id>
+                    <language>javascript</language>
+                    <script>var randomNumber = Math.floor(Math.random() * 10) + 1;
+var randomNumberStr = randomNumber &gt; 9 ? "" + randomNumber : "0" + randomNumber;
+
+var json = '{"user":{' +
+'  "username":"username-' + randomNumberStr + '",' +
+'  "firstName":"firstName-' + randomNumberStr + '",' +
+'  "lastName":"lastName-' + randomNumberStr + '"' +
+'}}';
+
+message.setContent(json, "UTF-8");
+if (randomNumber != 9) {
+  message.addMessageHeader("userRandomNumber", randomNumberStr);
+} else {
+  message.addMessageHeader("userRandomNumber", "00");
+}
+</script>
+                  </embedded-scripting-service>
+                  <stax-streaming-service>
+                    <unique-id>json-to-xml</unique-id>
+                    <input-builder class="json-streaming-input"/>
+                    <output-builder class="stax-default-stream-writer"/>
+                  </stax-streaming-service>
+                  <stax-get-root-element>
+                    <unique-id>get-user-root</unique-id>
+                    <metadata-key>rootElement</metadata-key>
+                  </stax-get-root-element>
+                </services>
+              </service-list>
+              <stax-xml-start-document>
+                <unique-id>start</unique-id>
+                <root-element>%message{rootElement}-wrapper</root-element>
+              </stax-xml-start-document>
+              <stax-xml-write-element>
+                <unique-id>write-user</unique-id>
+              </stax-xml-write-element>
+              <service-list>
+                <unique-id>add-address</unique-id>
+                <services>
+                  <embedded-scripting-service>
+                    <unique-id>create-address</unique-id>
+                    <language>javascript</language>
+                    <script>var randomNumber = Math.floor(Math.random() * 10) + 1;
+var randomNumberStr = randomNumber &gt; 9 ? "" + randomNumber : "0" + randomNumber;
+
+var json = '{"address":{' +
+'  "number":"' + randomNumberStr + '",' +
+'  "street":"Avenue ' + randomNumberStr + '",' +
+'  "postcode":"000-' + randomNumberStr + '"' +
+'}}';
+
+message.setContent(json, "UTF-8");
+if (randomNumber != 9) {
+  message.addMessageHeader("addressRandomNumber", randomNumberStr);
+} else {
+  message.addMessageHeader("addressRandomNumber", "00");
+}
+</script>
+                  </embedded-scripting-service>
+                  <stax-streaming-service>
+                    <unique-id>json-to-xml</unique-id>
+                    <input-builder class="json-streaming-input"/>
+                    <output-builder class="stax-default-stream-writer"/>
+                  </stax-streaming-service>
+                  <stax-xml-write-element>
+                    <unique-id>write</unique-id>
+                  </stax-xml-write-element>
+                </services>
+              </service-list>
+              <stax-xml-end-document>
+                <unique-id>end</unique-id>
+              </stax-xml-end-document>
+              <xpath-metadata-service>
+                <unique-id>parse-username-and-number</unique-id>
+                <xpath-query class="configured-xpath-query">
+                  <metadata-key>username</metadata-key>
+                  <xpath-query>/user-wrapper/user/username</xpath-query>
+                </xpath-query>
+                <xpath-query class="configured-xpath-query">
+                  <metadata-key>number</metadata-key>
+                  <xpath-query>/user-wrapper/address/number</xpath-query>
+                </xpath-query>
+              </xpath-metadata-service>
+              <if-then-otherwise>
+                <unique-id>check-record-type</unique-id>
+                <condition class="or">
+                  <expression>
+                    <algorithm>"username-%message{userRandomNumber}" != "%message{username}"</algorithm>
+                  </expression>
+                  <expression>
+                    <algorithm>"%message{addressRandomNumber}" != "%message{number}"</algorithm>
+                  </expression>
+                </condition>
+                <then>
+                  <service class="service-list">
+                    <unique-id>fails</unique-id>
+                    <services>
+                      <throw-exception-service>
+                        <unique-id>sick-galileo</unique-id>
+                        <exception-generator class="configured-exception">
+                          <message>userRandomNumber or addressRandomNumber don't match the xml content</message>
+                        </exception-generator>
+                      </throw-exception-service>
+                    </services>
+                  </service>
+                </then>
+                <otherwise>
+                  <service class="service-list">
+                    <unique-id>success</unique-id>
+                    <services/>
+                  </service>
+                </otherwise>
+              </if-then-otherwise>
+            </services>
+          </service-collection>
+          <producer class="null-message-producer">
+            <unique-id>tiny-hodgkin</unique-id>
+          </producer>
+          <produce-exception-handler class="null-produce-exception-handler"/>
+          <unique-id>stax</unique-id>
+          <message-metrics-interceptor>
+            <unique-id>flatfile-MessageMetrics</unique-id>
+            <timeslice-duration>
+              <unit>MINUTES</unit>
+              <interval>5</interval>
+            </timeslice-duration>
+            <timeslice-history-count>12</timeslice-history-count>
+          </message-metrics-interceptor>
+          <in-flight-workflow-interceptor>
+            <unique-id>flatfile-InFlight</unique-id>
+          </in-flight-workflow-interceptor>
+        </standard-workflow>
+      </workflow-list>
+      <unique-id>stax</unique-id>
+    </channel>
+  </channel-list>
+  <message-error-digester class="standard-message-error-digester">
+    <unique-id>ErrorDigest</unique-id>
+    <digest-max-size>100</digest-max-size>
+  </message-error-digester>
+</adapter>

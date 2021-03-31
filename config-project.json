@@ -1,0 +1,17 @@
+{
+  "name" : "stax",
+  "variableSets" : {
+    "default" : { }
+  },
+  "variableXpaths" : {
+    "/adapter/channel-list/channel[unique-id=\"stax\"]/workflow-list/standard-workflow[unique-id=\"stax\"]/consumer/message-factory/temp-directory" : "${tmpDir}"
+  },
+  "uidInXincludeCompntListFileName" : false,
+  "xincludeXpaths" : { },
+  "additionalFiles" : {
+    "bootstrap.properties" : "bootstrap.properties",
+    "log4j2.xml" : "log4j2.xml"
+  },
+  "optionalComponentsInUse" : [ "com.adaptris:interlok-json-streaming:4.0.0B1-RELEASE", "com.adaptris:interlok-stax:4.0.0B1-RELEASE" ],
+  "structured" : true
+}

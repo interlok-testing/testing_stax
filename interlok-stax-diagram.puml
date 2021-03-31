@@ -1,0 +1,15 @@
+@startuml
+partition "To NATS" {
+  "Polling Trigger" -right-> "Create user JSON" as CUJ
+  CUJ -right-> "JSON to XML" as UJ2X
+  UJ2X -right-> "Get user root element" as GURE
+  GURE -right-> "STaX start document" as SSD
+  SSD -right-> "Write user" as WU
+  WU -right-> "Create address JSON" as CAJ
+  CAJ -right-> "JSON to XML" as AJ2X
+  AJ2X -right-> "Write address" as WA
+  WA -right-> "STaX end document" as SED
+  SED -right-> "Parse username and address number" as PUA
+  PUA -right-> "Fail if not valid"
+}
+@enduml
