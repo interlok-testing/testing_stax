@@ -170,7 +170,6 @@ if (randomNumber != 9) {
           <producer class="null-message-producer">
             <unique-id>tiny-hodgkin</unique-id>
           </producer>
-          <produce-exception-handler class="null-produce-exception-handler"/>
           <unique-id>stax</unique-id>
           <message-metrics-interceptor>
             <unique-id>flatfile-MessageMetrics</unique-id>

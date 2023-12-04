@@ -12,6 +12,6 @@
     "bootstrap.properties" : "bootstrap.properties",
     "log4j2.xml" : "log4j2.xml"
   },
-  "optionalComponentsInUse" : [ "com.adaptris:interlok-json-streaming:4.0.0B1-RELEASE", "com.adaptris:interlok-stax:4.0.0B1-RELEASE" ],
+  "optionalComponentsInUse" : [ "com.adaptris:interlok-json-streaming:5.0-SNAPSHOT", "com.adaptris:interlok-stax:5.0-SNAPSHOT" ],
   "structured" : true
 }
