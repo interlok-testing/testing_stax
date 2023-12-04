@@ -19,9 +19,11 @@ allprojects {
 
 dependencies {
   interlokRuntime ("com.adaptris:interlok-stax:$interlokVersion") { changing=true }
+  interlokRuntime ("com.adaptris:interlok-scripting:$interlokVersion") { changing=true }
   interlokRuntime ("com.adaptris:interlok-json-streaming:$interlokVersion") { changing=true }
   
   interlokJavadocs group: "com.adaptris", name: "interlok-stax", version: "$interlokVersion", classifier: "javadoc", changing: true, transitive: false
+  interlokJavadocs group: "com.adaptris", name: "interlok-scripting", version: "$interlokVersion", classifier: "javadoc", changing: true, transitive: false
   interlokJavadocs group: "com.adaptris", name: "interlok-json-streaming", version: "$interlokVersion", classifier: "javadoc", changing: true, transitive: false
   
   interlokTestRuntime ("com.adaptris:interlok-service-tester:$interlokVersion") { changing=true }
