@@ -1,5 +1,8 @@
 # StAX Testing
 
+[![license](https://img.shields.io/github/license/interlok-testing/testing_stax.svg)](https://github.com/interlok-testing/testing_stax/blob/develop/LICENSE)
+[![Actions Status](https://github.com/interlok-testing/testing_stax/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/interlok-testing/testing_stax/actions/workflows/gradle-build.yml)
+
 Project tests interlok-stax features
 
 ## What it does
